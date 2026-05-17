@@ -17,7 +17,7 @@ bash scripts/install_wechat_download_desktop.sh
 
 脚本会：
 
-1. 定位 Mac 版微信下载目录，优先使用 `~/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/*/msg/file`。
+1. 定位当前 Mac 用户的微信下载目录，优先扫描 `~/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/*/msg/file`，多账号时选择最近使用的目录。
 2. 把真实下载目录移动到桌面 `微信下载`。
 3. 在微信原路径创建指向桌面文件夹的符号链接。
 4. 给桌面文件夹设置绿色文件夹图标和绿色 Finder 标签。
@@ -34,4 +34,5 @@ bash scripts/uninstall_wechat_download_desktop.sh
 
 - 仅支持 macOS。
 - 建议先退出微信再运行。
+- 如果自动识别不对，可以用 `WECHAT_DOWNLOAD_DIR="/你的/微信/msg/file/路径" bash scripts/install_wechat_download_desktop.sh` 指定目录。
 - 不要创建 App 入口；用户要的是一个真实绿色文件夹，且打开后直接看到微信下载内容。

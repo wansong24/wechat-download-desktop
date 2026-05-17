@@ -10,6 +10,15 @@ DESKTOP="${HOME}/Desktop"
 DESKTOP_FOLDER="${DESKTOP}/微信下载"
 
 find_wechat_download_dir() {
+  if [[ -n "${WECHAT_DOWNLOAD_DIR:-}" ]]; then
+    if [[ -d "${WECHAT_DOWNLOAD_DIR}" || -L "${WECHAT_DOWNLOAD_DIR}" ]]; then
+      printf '%s\n' "${WECHAT_DOWNLOAD_DIR}"
+      return 0
+    fi
+    echo "WECHAT_DOWNLOAD_DIR 指定的目录不存在：${WECHAT_DOWNLOAD_DIR}" >&2
+    return 1
+  fi
+
   local base="${HOME}/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files"
   if [[ ! -d "${base}" ]]; then
     echo "找不到微信数据目录：${base}" >&2
@@ -17,7 +26,12 @@ find_wechat_download_dir() {
   fi
 
   local candidate
-  candidate="$(find "${base}" -maxdepth 3 -type d -path '*/msg/file' 2>/dev/null | head -n 1 || true)"
+  candidate="$(
+    find "${base}" -maxdepth 4 \( -type d -o -type l \) -path '*/msg/file' -print0 2>/dev/null |
+      xargs -0 stat -f '%m %N' 2>/dev/null |
+      sort -rn |
+      sed -n '1s/^[0-9][0-9]* //p'
+  )"
   if [[ -z "${candidate}" ]]; then
     echo "找不到微信下载目录。请确认已经安装并登录 Mac 版微信。" >&2
     return 1
@@ -28,6 +42,11 @@ find_wechat_download_dir() {
 
 TARGET="$(find_wechat_download_dir)"
 
+if [[ ! -d "${DESKTOP}" ]]; then
+  echo "找不到桌面目录：${DESKTOP}" >&2
+  exit 1
+fi
+
 if [[ -e "${DESKTOP}/微信下载.app" ]]; then
   rm -rf "${DESKTOP}/微信下载.app"
 fi
@@ -37,7 +56,19 @@ if [[ -L "${DESKTOP_FOLDER}" || -f "${DESKTOP_FOLDER}" ]]; then
 fi
 
 if [[ -d "${DESKTOP_FOLDER}" && ! -L "${DESKTOP_FOLDER}" ]]; then
-  if [[ "${TARGET}" != "${DESKTOP_FOLDER}" && ! -L "${TARGET}" ]]; then
+  if [[ -L "${TARGET}" ]]; then
+    link_dest="$(readlink "${TARGET}")"
+    if [[ "${link_dest}" = /* ]]; then
+      linked_real="$(cd "${link_dest}" 2>/dev/null && pwd -P || true)"
+    else
+      linked_real="$(cd "$(dirname "${TARGET}")/${link_dest}" 2>/dev/null && pwd -P || true)"
+    fi
+    desktop_real="$(cd "${DESKTOP_FOLDER}" && pwd -P)"
+    if [[ "${linked_real}" != "${desktop_real}" ]]; then
+      echo "微信下载路径已经是链接，但没有指向桌面“微信下载”：${TARGET}" >&2
+      exit 1
+    fi
+  elif [[ "${TARGET}" != "${DESKTOP_FOLDER}" ]]; then
     echo "桌面已存在普通文件夹：${DESKTOP_FOLDER}"
     echo "为避免覆盖你的文件，请先手动改名或移走它。"
     exit 1
@@ -52,8 +83,11 @@ if [[ ! -d "${DESKTOP_FOLDER}" ]]; then
   mkdir -p "${DESKTOP_FOLDER}"
 fi
 
-if [[ "${TARGET}" != "${DESKTOP_FOLDER}" ]]; then
+if [[ "${TARGET}" != "${DESKTOP_FOLDER}" && ! -L "${TARGET}" ]]; then
   rm -rf "${TARGET}"
+  ln -s "${DESKTOP_FOLDER}" "${TARGET}"
+elif [[ -L "${TARGET}" ]]; then
+  rm -f "${TARGET}"
   ln -s "${DESKTOP_FOLDER}" "${TARGET}"
 fi
 

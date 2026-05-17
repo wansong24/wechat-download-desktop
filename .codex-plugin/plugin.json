@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "微信下载桌面绿色文件夹",
     "shortDescription": "在 macOS 桌面创建绿色“微信下载”文件夹，点开直达微信下载内容。",
-    "longDescription": "这个插件会在 macOS 上定位微信下载目录，把真实下载文件夹移动到桌面“微信下载”，并在微信原路径放回链接，让微信继续正常读写。桌面文件夹会设置为绿色文件夹图标，打开后直接显示按月份保存的微信文件。",
+    "longDescription": "这个插件会在 macOS 上自动定位当前用户的微信下载目录，把真实下载文件夹移动到桌面“微信下载”，并在微信原路径放回链接，让微信继续正常读写。它不会写死用户名或微信账号目录；多账号时会优先选择最近使用的 msg/file，也支持通过 WECHAT_DOWNLOAD_DIR 手动指定路径。桌面文件夹会设置为绿色文件夹图标，打开后直接显示按月份保存的微信文件。",
     "developerName": "wansong24",
     "category": "Productivity",
     "capabilities": [
