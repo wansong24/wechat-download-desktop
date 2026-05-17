@@ -1,0 +1,41 @@
+{
+  "name": "wechat-download-desktop",
+  "version": "1.0.0",
+  "description": "Create a green Desktop folder that directly opens the real WeChat download directory on macOS.",
+  "author": {
+    "name": "wansong24",
+    "email": "wansong24@googlemail.com",
+    "url": "https://github.com/wansong24"
+  },
+  "homepage": "https://github.com/wansong24/wechat-download-desktop",
+  "repository": "https://github.com/wansong24/wechat-download-desktop",
+  "license": "MIT",
+  "keywords": [
+    "wechat",
+    "macos",
+    "desktop",
+    "finder",
+    "shortcut"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "微信下载桌面绿色文件夹",
+    "shortDescription": "在 macOS 桌面创建绿色“微信下载”文件夹，点开直达微信下载内容。",
+    "longDescription": "这个插件会在 macOS 上定位微信下载目录，把真实下载文件夹移动到桌面“微信下载”，并在微信原路径放回链接，让微信继续正常读写。桌面文件夹会设置为绿色文件夹图标，打开后直接显示按月份保存的微信文件。",
+    "developerName": "wansong24",
+    "category": "Productivity",
+    "capabilities": [
+      "Desktop automation",
+      "macOS Finder setup"
+    ],
+    "websiteURL": "https://github.com/wansong24/wechat-download-desktop",
+    "privacyPolicyURL": "https://github.com/wansong24/wechat-download-desktop#隐私说明",
+    "termsOfServiceURL": "https://github.com/wansong24/wechat-download-desktop#使用说明",
+    "defaultPrompt": [
+      "帮我在桌面创建绿色微信下载文件夹",
+      "运行微信下载桌面整理脚本",
+      "把微信下载目录整理到桌面绿色文件夹"
+    ],
+    "brandColor": "#22C55E"
+  }
+}
