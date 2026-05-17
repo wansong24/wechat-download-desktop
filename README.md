@@ -15,7 +15,7 @@
 在插件目录运行：
 
 ```bash
-./scripts/install_wechat_download_desktop.sh
+bash scripts/install_wechat_download_desktop.sh
 ```
 
 运行成功后，桌面会出现绿色 `微信下载` 文件夹。以后微信下载的文件会继续出现在这里。
@@ -32,7 +32,7 @@
 如果要恢复到微信默认位置，可以运行：
 
 ```bash
-./scripts/uninstall_wechat_download_desktop.sh
+bash scripts/uninstall_wechat_download_desktop.sh
 ```
 
 它会把桌面 `微信下载` 文件夹移回微信原来的目录。
