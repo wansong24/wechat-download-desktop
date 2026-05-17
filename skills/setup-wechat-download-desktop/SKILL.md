@@ -12,7 +12,7 @@ description: 在 macOS 桌面创建绿色“微信下载”文件夹，并让它
 运行插件内的安装脚本：
 
 ```bash
-./scripts/install_wechat_download_desktop.sh
+bash scripts/install_wechat_download_desktop.sh
 ```
 
 脚本会：
@@ -27,7 +27,7 @@ description: 在 macOS 桌面创建绿色“微信下载”文件夹，并让它
 需要恢复默认结构时运行：
 
 ```bash
-./scripts/uninstall_wechat_download_desktop.sh
+bash scripts/uninstall_wechat_download_desktop.sh
 ```
 
 ## 注意
